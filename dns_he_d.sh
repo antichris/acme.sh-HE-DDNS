@@ -133,16 +133,14 @@ setDDNSTXT() ( ## (domain, txtValue, ddnsKey)
 )
 
 ## Instructions for adding a DDNS TXT record.
-ensureMsg() ( ## ([domain])
-	varname=HE_DDNSKey
-	[ "$1" ] && varname=$(ddnsKeyVar "$1")
+ensureMsg() ( ## (domain)
 	cat <<-***
 Please ensure that the corresponding TXT entry is present in the relevant zone
 and has DDNS enabled in the Hurricane Electric DNS Management dashboard at
 <https://dns.he.net/>, and export its current access key value as a system
 environment variable, e.g.:
 
-  export ${varname}='\$cGFzc3dvcmQx*'
+  export $(ddnsKeyVar "$1")='\$cGFzc3dvcmQx*'
 	***
 )
 
