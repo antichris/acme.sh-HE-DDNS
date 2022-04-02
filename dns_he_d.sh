@@ -75,12 +75,8 @@ loadDDNSKey() ( ## (domain)
 
 	eval 'DDNSKey="${'"$keyVar"':=$(_readaccountconf "$keyVar")}"'
 	if [ ! "$DDNSKey" ]; then
-		_err "$(cat <<-***
-			Missing DDNS access key for "${domain}".
-
-			$(ensureMsg "$domain")
-		***
-		)"
+		_err "Missing DDNS access key for '${domain}'"
+		_debug "$(ensureMsg "$domain")"
 		return 1
 	fi
 
@@ -113,12 +109,8 @@ setDDNSTXT() ( ## (domain, txtValue, ddnsKey)
 		return 0
 	;;
 	badauth)
-		_err "$(cat <<-***
-			Authentication failed for "${domain}".
-
-			$(ensureMsg "$domain")
-		***
-		)"
+		_err "Authentication failed for '${domain}'"
+		_debug "$(ensureMsg "$domain")"
 		return 1
 	;;
 	nochg\ \"*\")
@@ -203,6 +195,7 @@ heDDNSSim() {
 	_saveaccountconf() { dump _saveaccountconf "$@"; }
 	_info() { dump _info "$@"; }
 	_err() { dump _err "$@"; }
+	_debug() { dump _debug "$@"; }
 	_debug2() { dump _debug2 "$@"; }
 
 	dump() {
